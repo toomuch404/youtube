@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get some dopamines</title>
+    <style>
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, Helvetica, sans-serif;
+        zoom: 300%;
+      }
+      .checkbox {
+        cursor: pointer;
+      }
+      label {
+        text-transform: capitalize;
+      }
+      #secret-box {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100px;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="checkbox" id="checkbox">
+        <input type="checkbox" id="monday" value="monday" name="monday" />
+        <label for="monday">Monday</label>
+      </div>
+    </div>
+    <div id="secret-box"></div>
+  </body>
+  <script>
+    const week = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ];
+    const container = document.getElementById("container");
+    const checkbox = document.getElementsByClassName("checkbox")[0];
+    const checkboxClone = checkbox.cloneNode(true);
+    checkbox.remove();
+
+    week.forEach((day) => {
+      const newDay = checkboxClone.cloneNode(true);
+      newDay.firstElementChild.id = day;
+      newDay.firstElementChild.value = day;
+      newDay.firstElementChild.name = day;
+      newDay.firstElementChild.addEventListener(
+        "click",
+        isAllCheckboxesChecked
+      );
+      newDay.lastElementChild.htmlFor = day;
+      newDay.lastElementChild.textContent = day;
+      container.appendChild(newDay);
+    });
+
+    function isAllCheckboxesChecked() {
+      const checked = document.querySelectorAll("input:checked");
+      if (checked.length === week.length) {
+        setTimeout(function timer() {
+          alert("Ah, dopamine is released!");
+        }, 200);
+      }
+    }
+
+    document
+      .getElementById("secret-box")
+      .addEventListener("click", clickAllCheckboxes);
+
+    function clickAllCheckboxes() {
+      const checkbox = document.querySelectorAll("input");
+      for (let i = 0; i < checkbox.length; i++) {
+        setTimeout(function timer() {
+          checkbox[i].click();
+        }, i * 300);
+      }
+    }
+  </script>
+</html>
